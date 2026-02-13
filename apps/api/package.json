@@ -4,7 +4,7 @@
   "description": "Workflow Engine API - Node.js + Express + TypeScript",
   "main": "dist/index.js",
   "scripts": {
-    "build": "swc src -d dist --copy-files",
+    "build": "swc src -d dist",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "lint": "eslint src --ext .ts",
