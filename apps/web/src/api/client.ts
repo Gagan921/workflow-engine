@@ -71,7 +71,7 @@ async function request<T>(
  * Workflow APIs
  */
 
-export const api = {
+export const workflowApi = {
   getWorkflows: () =>
     request<Workflow[]>('/workflows'),
 
@@ -95,12 +95,14 @@ export const api = {
       method: 'DELETE',
     }),
 
+  getWorkflowRuns: (workflowId: string) =>
+    request<WorkflowRun[]>(`/workflows/${workflowId}/runs`),
+};
+
+export const triggerApi = {
   triggerWorkflow: (id: string, payload: Record<string, unknown>) =>
     request<TriggerWorkflowResponse>(`/workflows/${id}/trigger`, {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
-
-  getWorkflowRuns: (workflowId: string) =>
-    request<WorkflowRun[]>(`/workflows/${workflowId}/runs`),
 };
