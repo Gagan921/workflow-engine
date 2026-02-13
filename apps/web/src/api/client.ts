@@ -72,35 +72,35 @@ async function request<T>(
  */
 
 export const workflowApi = {
-  getWorkflows: () =>
+  getAll: () =>
     request<Workflow[]>('/workflows'),
 
-  getWorkflow: (id: string) =>
+  get: (id: string) =>
     request<Workflow>(`/workflows/${id}`),
 
-  createWorkflow: (data: CreateWorkflowRequest) =>
+  create: (data: CreateWorkflowRequest) =>
     request<Workflow>('/workflows', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
 
-  updateWorkflow: (id: string, data: UpdateWorkflowRequest) =>
+  update: (id: string, data: UpdateWorkflowRequest) =>
     request<Workflow>(`/workflows/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
 
-  deleteWorkflow: (id: string) =>
+  delete: (id: string) =>
     request<void>(`/workflows/${id}`, {
       method: 'DELETE',
     }),
 
-  getWorkflowRuns: (workflowId: string) =>
+  getRuns: (workflowId: string) =>
     request<WorkflowRun[]>(`/workflows/${workflowId}/runs`),
 };
 
 export const triggerApi = {
-  triggerWorkflow: (id: string, payload: Record<string, unknown>) =>
+  trigger: (id: string, payload: Record<string, unknown>) =>
     request<TriggerWorkflowResponse>(`/workflows/${id}/trigger`, {
       method: 'POST',
       body: JSON.stringify(payload),
