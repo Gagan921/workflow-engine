@@ -1,21 +1,24 @@
 /**
  * API Client
- * 
+ *
  * HTTP client for communicating with the workflow engine backend.
  */
 
-import { 
-  Workflow, 
-  WorkflowRun, 
-  CreateWorkflowRequest, 
+import type {
+  Workflow,
+  WorkflowRun,
+  CreateWorkflowRequest,
   UpdateWorkflowRequest,
   TriggerWorkflowResponse,
-  ApiError 
 } from '@/types';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
-class ApiError extends Error {
+/**
+ * Runtime API Error Class
+ */
+export class ApiError extends Error {
   constructor(
     message: string,
     public statusCode: number,
@@ -27,120 +30,77 @@ class ApiError extends Error {
   }
 }
 
-async function handleResponse<T>(response: Response): Promise<T> {
+/**
+ * Generic request handler
+ */
+async function request<T>(
+  endpoint: string,
+  options?: RequestInit
+): Promise<T> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (options?.headers && typeof options.headers === 'object') {
+    Object.assign(headers, options.headers as Record<string, string>);
+  }
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+  });
+
   if (!response.ok) {
-    const errorData: ApiError = await response.json().catch(() => ({ 
-      error: 'Unknown error',
-      code: 'UNKNOWN_ERROR'
+    const errorData = await response.json().catch(() => ({
+      message: 'Unknown error',
+      code: 'UNKNOWN_ERROR',
     }));
-    
+
     throw new ApiError(
-      errorData.error,
+      errorData.message || errorData.error || 'Request failed',
       response.status,
       errorData.code,
       errorData.details
     );
   }
 
-  // Handle 204 No Content
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
   return response.json();
 }
 
-async function fetchApi<T>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`;
-  
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...options.headers,
-  };
+/**
+ * Workflow APIs
+ */
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+export const api = {
+  getWorkflows: () =>
+    request<Workflow[]>('/workflows'),
 
-  return handleResponse<T>(response);
-}
+  getWorkflow: (id: string) =>
+    request<Workflow>(`/workflows/${id}`),
 
-// ============================================================================
-// Workflow API
-// ============================================================================
-
-export const workflowApi = {
-  /**
-   * Get all workflows
-   */
-  getAll: async (): Promise<Workflow[]> => {
-    const response = await fetchApi<{ workflows: Workflow[] }>('/workflows');
-    return response.workflows;
-  },
-
-  /**
-   * Get a workflow by ID
-   */
-  getById: async (id: string): Promise<Workflow> => {
-    return fetchApi<Workflow>(`/workflows/${id}`);
-  },
-
-  /**
-   * Create a new workflow
-   */
-  create: async (data: CreateWorkflowRequest): Promise<Workflow> => {
-    return fetchApi<Workflow>('/workflows', {
+  createWorkflow: (data: CreateWorkflowRequest) =>
+    request<Workflow>('/workflows', {
       method: 'POST',
       body: JSON.stringify(data),
-    });
-  },
+    }),
 
-  /**
-   * Update a workflow
-   */
-  update: async (id: string, data: UpdateWorkflowRequest): Promise<Workflow> => {
-    return fetchApi<Workflow>(`/workflows/${id}`, {
-      method: 'PATCH',
+  updateWorkflow: (id: string, data: UpdateWorkflowRequest) =>
+    request<Workflow>(`/workflows/${id}`, {
+      method: 'PUT',
       body: JSON.stringify(data),
-    });
-  },
+    }),
 
-  /**
-   * Delete a workflow
-   */
-  delete: async (id: string): Promise<void> => {
-    return fetchApi<void>(`/workflows/${id}`, {
+  deleteWorkflow: (id: string) =>
+    request<void>(`/workflows/${id}`, {
       method: 'DELETE',
-    });
-  },
+    }),
 
-  /**
-   * Get workflow runs
-   */
-  getRuns: async (id: string): Promise<WorkflowRun[]> => {
-    const response = await fetchApi<{ runs: WorkflowRun[] }>(`/workflows/${id}/runs`);
-    return response.runs;
-  },
-};
-
-// ============================================================================
-// Trigger API
-// ============================================================================
-
-export const triggerApi = {
-  /**
-   * Trigger a workflow by its trigger path
-   */
-  trigger: async (path: string, data: Record<string, unknown> = {}): Promise<TriggerWorkflowResponse> => {
-    return fetchApi<TriggerWorkflowResponse>(path, {
+  triggerWorkflow: (id: string, payload: Record<string, unknown>) =>
+    request<TriggerWorkflowResponse>(`/workflows/${id}/trigger`, {
       method: 'POST',
-      body: JSON.stringify(data),
-    });
-  },
-};
+      body: JSON.stringify(payload),
+    }),
 
-export { ApiError };
+  getWorkflowRuns: (workflowId: string) =>
+    request<WorkflowRun[]>(`/workflows/${workflowId}/runs`),
+};
