@@ -5,7 +5,7 @@ This guide covers deploying the Workflow Engine to various cloud platforms.
 ## Prerequisites
 
 1. Node.js 20+ installed locally
-2. A MySQL database (can use cloud providers like PlanetScale, AWS RDS, or Railway)
+2. A postgres database (can use cloud providers like PlanetScale, AWS RDS, or Railway)
 3. Git repository pushed to GitHub
 
 ## Environment Setup
@@ -13,7 +13,7 @@ This guide covers deploying the Workflow Engine to various cloud platforms.
 Create a `.env` file in `apps/api/` with:
 
 ```env
-DATABASE_URL="mysql://user:password@host:3306/workflow_engine"
+DATABASE_URL="postgres://user:password@host:3306/workflow_engine"
 NODE_ENV=production
 PORT=3001
 ```
@@ -42,7 +42,7 @@ Sign up at [render.com](https://render.com)
    - **Plan**: Free
 
 4. Add Environment Variables:
-   - `DATABASE_URL`: Your MySQL connection string
+   - `DATABASE_URL`: Your postgres connection string
    - `NODE_ENV`: production
    - `PORT`: 10000
 
@@ -94,9 +94,9 @@ npm run db:deploy
 ## Troubleshooting
 
 ### Database Connection Issues
-- Verify `DATABASE_URL` format: `mysql://user:pass@host:3306/dbname`
+- Verify `DATABASE_URL` format: `postgres://user:pass@host:3306/dbname`
 - Check firewall rules allow connections from your server IP
-- Ensure MySQL user has proper permissions
+- Ensure postgres user has proper permissions
 
 ### Build Failures
 - Check Node.js version (requires 20+)
