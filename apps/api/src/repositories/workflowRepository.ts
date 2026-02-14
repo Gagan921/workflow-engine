@@ -71,23 +71,20 @@ export class WorkflowRepository {
 
   /**
    * Find a workflow by trigger path
+    * trigger is stored as JSON; Prisma filters JSON with path (array of keys) + equals
    */
-  async findByTriggerPath(path: string): Promise<WorkflowModel | null> {
+  async findByTriggerPath(triggerPath: string): Promise<WorkflowModel | null> {
     const workflows = await prisma.workflow.findMany({
       where: {
         trigger: {
-          path: {
-            equals: path,
-          },
+          path: ['path'],
+          equals: triggerPath,
         },
       },
     });
 
-    // Since we're using JSON field, we need to filter in memory
-    const matchingWorkflow = workflows.find(w => {
-      const trigger = w.trigger as { path?: string };
-      return trigger.path === path;
-    });
+    const matchingWorkflow = workflows[0];
+
 
     return matchingWorkflow ? serializeWorkflow(matchingWorkflow) : null;
   }
