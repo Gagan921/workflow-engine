@@ -64,6 +64,10 @@ async function request<T>(
     );
   }
 
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   return response.json();
 }
 
@@ -100,7 +104,7 @@ export const workflowApi = {
     }),
 
   getRuns: (workflowId: string) =>
-    request<WorkflowRun[]>(`/workflows/${workflowId}/runs`),
+    request<{ runs: WorkflowRun[] }>(`/workflows/${workflowId}/runs`),
 };
 
 export const triggerApi = {
