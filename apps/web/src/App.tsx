@@ -84,7 +84,7 @@ export default function App() {
       setLoading(true);
       setError(null);
       const data = await workflowApi.getAll();
-      setWorkflows(data);
+      setWorkflows(data.workflows);
     } catch (err) {
       const message = err instanceof ApiError ? err.message : 'Failed to fetch workflows';
       setError(message);
