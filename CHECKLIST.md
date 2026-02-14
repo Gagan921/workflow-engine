@@ -6,7 +6,7 @@
 
 - [x] **Node.js** - Used Node.js 20+
 - [x] **TypeScript** - Full TypeScript throughout
-- [x] **Database** - MySQL with Prisma ORM
+- [x] **Database** - Postgres with Prisma ORM
 
 #### API Endpoints
 - [x] `POST /workflows` - Create workflow
