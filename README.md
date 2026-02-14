@@ -2,7 +2,7 @@
 
 A full-stack workflow automation platform similar to Zapier, built with Node.js, TypeScript, React, and MySQL.
 
-APP Link:- https://workflow-engine-1-i5f9.onrender.com/
+App Link:- https://workflow-engine-1-i5f9.onrender.com/
 
 ## Features
 
