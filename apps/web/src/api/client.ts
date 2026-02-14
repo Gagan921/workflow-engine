@@ -72,9 +72,13 @@ async function request<T>(
  */
 
 export const workflowApi = {
-  getAll: () =>
-    request<Workflow[]>('/workflows'),
+  getAll: async (): Promise<Workflow[]> => {
+    const data = await request<{ workflows: Workflow[] } | Workflow[]>(
+      '/workflows'
+    );
 
+    return Array.isArray(data) ? data: data.workflows ?? [];
+  },
   get: (id: string) =>
     request<Workflow>(`/workflows/${id}`),
 
