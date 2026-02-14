@@ -278,6 +278,11 @@ curl -X POST http://localhost:3001/t/YOUR_TRIGGER_PATH \
   -H "Content-Type: application/json" \
   -d '{"type": "test", "message": "Hello from Workflow Engine!"}'
 ```
+## Output:
+
+<img width="2812" height="1494" alt="image" src="https://github.com/user-attachments/assets/7fca8906-a9d3-41aa-83ae-1fbfc77c9fa1" />
+
+
 
 ## Assumptions & Trade-offs
 
@@ -311,15 +316,6 @@ curl -X POST http://localhost:3001/t/YOUR_TRIGGER_PATH \
 4. Set start command: `cd apps/api && npm start`
 5. Add environment variables
 6. Create a Postgres database (or use Render PostgreSQL with minor changes)
-
-### Railway
-
-1. Connect your GitHub repo
-2. Railway will auto-detect the Node.js app
-3. Add a Postgres database
-4. Set environment variables
-
-### Manual Deployment
 
 ```bash
 # Build all packages
