@@ -108,8 +108,8 @@ export const workflowApi = {
 };
 
 export const triggerApi = {
-  trigger: (id: string, payload: Record<string, unknown>) =>
-    request<TriggerWorkflowResponse>(`/workflows/${id}/trigger`, {
+  trigger: (triggerPath: string, payload: Record<string, unknown>) =>
+    request<TriggerWorkflowResponse>(triggerPath, {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
