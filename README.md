@@ -172,7 +172,7 @@ Frontend will be available at `http://localhost:5173`
     {
       "type": "http_request",
       "method": "POST",
-      "url": "https://hooks.slack.com/services/XXX/YYY/ZZZ",
+      "url": "https://hooks.slack.com/services/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",
       "headers": { "Content-Type": "application/json" },
       "body": { "mode": "custom", "value": { "text": "{{title}}" } },
       "timeoutMs": 2000,
