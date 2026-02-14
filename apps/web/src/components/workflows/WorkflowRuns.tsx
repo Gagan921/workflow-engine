@@ -209,7 +209,7 @@ export function WorkflowRuns({ workflowId }: WorkflowRunsProps) {
       setLoading(true);
       setError(null);
       const data = await workflowApi.getRuns(workflowId);
-      setRuns(data);
+      setRuns(data.runs);
     } catch (err) {
       const message = err instanceof ApiError ? err.message : 'Failed to fetch runs';
       setError(message);
