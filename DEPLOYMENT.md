@@ -57,138 +57,10 @@ Sign up at [render.com](https://render.com)
 4. Add Environment Variables:
    - `VITE_API_URL`: URL of your API service
 
-#### Create MySQL Database
-1. Click "New +" → "MySQL"
+#### Create Postgres Database
+1. Click "New +" → "Postgres"
 2. Choose plan (Free tier available)
 3. Copy the internal connection string
-
-## Option 2: Railway
-
-### Step 1: Create Railway Account
-Sign up at [railway.app](https://railway.app)
-
-### Step 2: Deploy from GitHub
-1. Click "New Project"
-2. Select "Deploy from GitHub repo"
-3. Choose your repository
-
-### Step 3: Add MySQL Database
-1. Click "New" → "Database" → "Add MySQL"
-2. Railway will automatically add the `DATABASE_URL` to your service
-
-### Step 4: Configure Service
-1. Select your service
-2. Go to "Settings" → "Build"
-3. Set:
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `cd apps/api && npm start`
-
-### Step 5: Add Frontend Service (Optional)
-1. Click "New" → "Empty Service"
-2. Connect to same repo
-3. Set:
-   - **Build Command**: `cd apps/web && npm install && npm run build`
-   - **Start Command**: `npx serve -s dist -l $PORT`
-
-## Option 3: Heroku
-
-### Step 1: Create Heroku Account
-Sign up at [heroku.com](https://heroku.com)
-
-### Step 2: Install Heroku CLI
-```bash
-npm install -g heroku
-```
-
-### Step 3: Create App
-```bash
-heroku create your-workflow-engine
-```
-
-### Step 4: Add MySQL
-```bash
-heroku addons:create jawsdb:kitefin
-```
-
-### Step 5: Deploy
-```bash
-git push heroku main
-```
-
-### Step 6: Run Migrations
-```bash
-heroku run npm run db:deploy
-```
-
-## Option 4: AWS (EC2 + RDS)
-
-### Step 1: Create RDS MySQL Database
-1. Go to AWS RDS Console
-2. Create MySQL 8.0 instance
-3. Note the endpoint, username, and password
-
-### Step 2: Create EC2 Instance
-1. Launch Ubuntu 22.04 instance
-2. SSH into the instance
-
-### Step 3: Setup Server
-```bash
-# Update system
-sudo apt update && sudo apt upgrade -y
-
-# Install Node.js 20
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Install PM2
-sudo npm install -g pm2
-
-# Clone repository
-git clone <your-repo>
-cd workflow-engine
-
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Run migrations
-npm run db:deploy
-
-# Start with PM2
-pm2 start apps/api/dist/index.js --name workflow-api
-```
-
-### Step 4: Configure Nginx (Optional)
-```bash
-sudo apt install nginx
-sudo nano /etc/nginx/sites-available/workflow-engine
-```
-
-Add:
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    location / {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-Enable:
-```bash
-sudo ln -s /etc/nginx/sites-available/workflow-engine /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl restart nginx
-```
 
 ## Database Migration
 
@@ -282,8 +154,4 @@ For high traffic, consider:
 | Platform | Database | Compute | Monthly Cost |
 |----------|----------|---------|--------------|
 | Render | Free | Free | $0 |
-| Railway | Free | Free | $0 (limited) |
-| Heroku | Mini | Eco | ~$16 |
-| AWS RDS | db.t3.micro | t3.micro | ~$25 |
-
 *Free tiers have limitations. Check each platform's pricing page for details.*
