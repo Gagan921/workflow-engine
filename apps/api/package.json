@@ -6,7 +6,7 @@
   "scripts": {
     "build": "swc src -d dist",
     "dev": "tsx watch src/index.ts",
-    "start": "npm run build && node dist/index.js",
+    "start": "npm run build && ls -R dist && node dist/index.js",
     "lint": "eslint src --ext .ts",
     "test": "jest"
   },
