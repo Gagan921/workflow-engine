@@ -1,6 +1,6 @@
 # Workflow Engine
 
-A full-stack workflow automation platform similar to Zapier, built with Node.js, TypeScript, React, and MySQL.
+A full-stack workflow automation platform similar to Zapier, built with Node.js, TypeScript, React, and Postgres.
 
 Platform Link:- https://workflow-engine-1-i5f9.onrender.com/
 
@@ -25,7 +25,7 @@ workflow-engine/
 ├── packages/
 │   ├── shared-types/     # Shared TypeScript types
 │   └── database/         # Prisma schema and client
-├── docker-compose.yml    # Local MySQL setup
+├── docker-compose.yml    # Local Postgres setup
 └── README.md
 ```
 
@@ -51,7 +51,7 @@ workflow-engine/
 - TypeScript 5.4+
 - Express.js
 - Prisma ORM
-- MySQL 8.0
+- Postgres 8.0
 - Zod (validation)
 - Winston (logging)
 
@@ -69,7 +69,7 @@ workflow-engine/
 ### Prerequisites
 
 - Node.js 20+
-- Docker & Docker Compose (for local MySQL)
+- Docker & Docker Compose (for local Postgres)
 - npm or yarn
 
 ### 1. Clone and Install
@@ -80,14 +80,14 @@ cd workflow-engine
 npm install
 ```
 
-### 2. Start MySQL
+### 2. Start Postgres
 
 ```bash
 docker-compose up -d
 ```
 
 This starts:
-- MySQL on port 3306
+- Postgres on port 3306
 - Adminer (DB UI) on port 8080
 
 ### 3. Setup Database
@@ -252,7 +252,7 @@ Calls external APIs.
 ### Backend (.env)
 
 ```env
-DATABASE_URL="mysql://workflow_user:workflow_pass@localhost:3306/workflow_engine"
+DATABASE_URL="Postgres://workflow_user:workflow_pass@localhost:3306/workflow_engine"
 PORT=3001
 NODE_ENV=development
 FRONTEND_URL=http://localhost:5173
@@ -310,13 +310,13 @@ curl -X POST http://localhost:3001/t/YOUR_TRIGGER_PATH \
 3. Set build command: `npm install && npm run build`
 4. Set start command: `cd apps/api && npm start`
 5. Add environment variables
-6. Create a MySQL database (or use Render PostgreSQL with minor changes)
+6. Create a Postgres database (or use Render PostgreSQL with minor changes)
 
 ### Railway
 
 1. Connect your GitHub repo
 2. Railway will auto-detect the Node.js app
-3. Add a MySQL database
+3. Add a Postgres database
 4. Set environment variables
 
 ### Manual Deployment
