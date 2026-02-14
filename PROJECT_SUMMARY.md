@@ -31,7 +31,7 @@ workflow-engine/
 ├── packages/
 │   ├── shared-types/           # Shared TypeScript types
 │   └── database/               # Prisma schema and client
-├── docker-compose.yml          # Local MySQL setup
+├── docker-compose.yml          # Local Postgres setup
 ├── render.yaml                 # Render deployment config
 └── README.md                   # Comprehensive documentation
 ```
@@ -77,7 +77,7 @@ workflow-engine/
 - ✅ Test trigger dialog with custom payload
 - ✅ Toast notifications
 
-#### Database (MySQL + Prisma)
+#### Database (Postgres + Prisma)
 - ✅ Workflow table with JSON steps/trigger
 - ✅ WorkflowRun table with status tracking
 - ✅ Proper indexes for performance
@@ -157,7 +157,7 @@ Test script included (`scripts/test-workflow.sh`):
 ## Quick Start
 
 ```bash
-# 1. Start MySQL
+# 1. Start Postgres
 docker-compose up -d
 
 # 2. Install dependencies
