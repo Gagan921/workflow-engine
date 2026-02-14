@@ -10,6 +10,7 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["vite/client", "node"],
     "paths": {
       "@/*": ["./src/*"]
     }
