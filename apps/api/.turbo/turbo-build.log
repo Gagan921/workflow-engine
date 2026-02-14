@@ -1,0 +1,7 @@
+
+
+> @workflow/api@1.0.0 build
+> swc src -d dist
+
+[1G[0KSuccessfully compiled: 18 files with swc (157.29ms)
+[1G[0K⠙[1G[0K
